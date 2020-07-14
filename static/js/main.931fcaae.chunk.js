@@ -1,2 +1,0 @@
-(this.webpackJsonpreact_table=this.webpackJsonpreact_table||[]).push([[0],[,,,function(e,t,n){e.exports=n(10)},,,,,function(e,t,n){},function(e,t,n){},function(e,t,n){"use strict";n.r(t);var a=n(0),c=n.n(a),r=n(2),o=n.n(r);n(8),n(9);var u=function(){return c.a.createElement("h1",null,"React Table")};o.a.render(c.a.createElement(u,null),document.getElementById("root"))}],[[3,1,2]]]);
-//# sourceMappingURL=main.931fcaae.chunk.js.map
