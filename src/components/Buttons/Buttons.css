@@ -1,0 +1,14 @@
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.btn {
+  max-width: 120px;
+  margin-right: 5px;
+}
+
+.btn:last-child {
+  margin-right: 0;
+}
