@@ -19,11 +19,31 @@ const Form = (props) => {
   const [showForm, setShowForm] = useState(true)
   const [error, setError] = useState({ rows: false, columns: false, highlights: false })
 
+  // const isInteger = (value) => Math.abs(Math.floor(Number(value)))
+  // const number = parseInt(numString, 10);
+  // replace(/^[0|\D]*/,'');
+
+  // const checkValue = (value) => (
+  //   parseInt(value.trim().replace(/[^0-9]/, ''), 10)
+  // )
+
+  // var matrix = new Array(rows).fill(0).map(row => new Array(columns).fill(0));
+
   const handleAddData = (event) => {
     event.preventDefault()
+    console.log(typeof rows, typeof columns, typeof highlights)
 
     if (rows && columns && highlights) {
-      const matrix = [...Array(columns * rows).keys()].map(randomGenerate)
+      const matrix = []
+      for (let i = 0; i < rows; ++i) {
+        matrix[i] = []
+        for (let j = 0; j < columns; ++j) {
+          matrix[i][j] = randomGenerate()
+        }
+      }
+
+      console.log(matrix)
+      // const matrix = [...Array(columns * rows).keys()].map(randomGenerate)
 
       store.dispatch(setTable(matrix))
       store.dispatch(setShowTable(true))
@@ -58,16 +78,42 @@ const Form = (props) => {
   }
 
   const setColumnsHandler = ({ name, value }) => {
+    console.log(name, value)
+
+    if (value === '') {
+      store.dispatch(setColumns(''))
+
+      return false
+    }
+
     setError({ columns: false })
-    store.dispatch(setColumns(value.replace(/[^1-9]/, '')))
+    store.dispatch(setColumns(value.replace(/[^0-9]/, '')))
   }
+
   const setRowsHandler = ({ name, value }) => {
+    console.log(name, value)
+
+    if (value === '') {
+      store.dispatch(setRows(''))
+
+      return false
+    }
+
     setError({ rows: false })
-    store.dispatch(setRows(value.replace(/[^1-9]/, '')))
+    store.dispatch(setRows(value.replace(/[^0-9]/, '')))
   }
+
   const setHighlightsHandler = ({ name, value }) => {
+    console.log(name, value)
+
+    if (value === '') {
+      store.dispatch(setHighlights(''))
+
+      return false
+    }
+
     setError({ highlights: false })
-    store.dispatch(setHighlights(value.replace(/[^1-9]/, '')))
+    store.dispatch(setHighlights(value.replace(/[^0-9]/, '')))
   }
 
   return (
@@ -76,7 +122,7 @@ const Form = (props) => {
         {
           error.rows && (
             <div>
-              Please add rows value
+              Please add correct rows value
             </div>
           )
         }
@@ -85,14 +131,14 @@ const Form = (props) => {
           name="rows"
           className={`form-control ${error.rows && 'error'}`}
           placeholder="Rows..."
-          maxLength="2"
+          // maxLength="2"
           onChange={(event) => setRowsHandler(event.target)}
           value={rows}
         />
         {
           error.columns && (
             <div>
-              Please add columns value
+              Please add correct columns value
             </div>
           )
         }
@@ -101,14 +147,14 @@ const Form = (props) => {
           name="columns"
           className={`form-control ${error.columns && 'error'}`}
           placeholder="Columns..."
-          maxLength="2"
+          // maxLength="2"
           onChange={(event) => setColumnsHandler(event.target)}
           value={columns}
         />
         {
           error.highlights && (
             <div>
-              Please add highlight value
+              Please add correct highlight value
             </div>
           )
         }
@@ -117,7 +163,7 @@ const Form = (props) => {
           name="highlights"
           className={`form-control ${error.highlights && 'error'}`}
           placeholder="Highlight cells..."
-          maxLength="2"
+          // maxLength="2"
           onChange={(event) => setHighlightsHandler(event.target)}
           value={highlights}
         />

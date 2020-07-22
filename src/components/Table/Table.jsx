@@ -1,11 +1,10 @@
 import React from 'react'
 import './Table.css'
-import { v4 as uuidv4 } from 'uuid'
 import { connect } from 'react-redux'
-import store from '../../store/reducers'
-import { setTable } from '../../store/actions'
 import { TableShape } from '../../helpers/shapes'
 import TableItem from '../TableItem/TableItem'
+import AverageColumns from '../AverageColumns/AverageColumns'
+import RowSumItem from '../RowSumItem/RowSumItem'
 
 const Table = (props) => {
   const {
@@ -17,37 +16,6 @@ const Table = (props) => {
 
   const tableCopy = [...table]
   const rowLine = [...Array(rows).keys()]
-  const columnLine = [...Array(columns).keys()]
-  const onlyAmount = table.map(item => item.amount)
-
-  const averageColumnSum = columnLine.map((_, index) => {
-    let sum = 0
-    for (let i = index; i < onlyAmount.length; i += columns) {
-      sum += onlyAmount[i]
-    }
-    return Math.floor(sum / rows)
-  })
-
-  const onMouseOverHandler = (id) => {
-    const lightArray = table.slice(id * columns, (id * columns) + columns)
-
-    const newTable = table.map(item => (
-      lightArray.some(lightItem => lightItem.id === item.id)
-        ? { ...item, showPercent: true }
-        : { ...item, showPercent: false }
-    ))
-
-    store.dispatch(setTable(newTable))
-  }
-
-  const onMouseOutHandler = () => {
-    const newTable = table.map(item => ({
-      ...item,
-      showPercent: false
-    }))
-
-    store.dispatch(setTable(newTable))
-  }
 
   return (
     <>
@@ -69,18 +37,14 @@ const Table = (props) => {
                       showPercent={item.showPercent}
                     />
                   ))}
-                  <td
-                    id={row}
-                    onMouseOver={(event) => onMouseOverHandler(event.target.id)}
-                    onMouseOut ={onMouseOutHandler}
-                  >Sum: {rowSum}</td>
+                  <RowSumItem
+                    rowSum={rowSum}
+                    cellValue={row}
+                  />
                 </tr>
               )
             })}
-            {<tr>{averageColumnSum.map(item => (
-              <td key={uuidv4()}>Average sum: {item}</td>
-            ))}
-            </tr>}
+            <AverageColumns />
           </tbody>
         </table>
       )}
