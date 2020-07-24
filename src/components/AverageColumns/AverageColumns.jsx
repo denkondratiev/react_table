@@ -4,20 +4,18 @@ import { AverageColumnsShape } from '../../helpers/shapes'
 import { connect } from 'react-redux'
 
 const AverageColumns = (props) => {
-  // eslint-disable-next-line react/prop-types
-  const { columns, rows, table } = props
+  const { table } = props
 
-  const columnLine = [...Array(columns).keys()]
-  // eslint-disable-next-line react/prop-types
-  const onlyAmount = table.map(item => item.amount)
+  const onlyAmount = table.map(row => row.map(cell => cell.amount))
 
-  const averageColumnSum = columnLine.map((_, index) => {
-    let sum = 0
-    for (let i = index; i < onlyAmount.length; i += columns) {
-      sum += onlyAmount[i]
+  const res = []
+  for (let i = 0; i < onlyAmount.length; i++) {
+    for (let j = 0; j < onlyAmount[i].length; j++) {
+      res[j] = (res[j] || 0) + Math.floor(onlyAmount[i][j] / onlyAmount.length)
     }
-    return Math.floor(sum / rows)
-  })
+  }
+
+  const averageColumnSum = res
 
   return (
     <>
@@ -29,11 +27,9 @@ const AverageColumns = (props) => {
   )
 }
 
-AverageColumnsShape.propTypes = AverageColumnsShape.isRequired
+AverageColumns.propTypes = AverageColumnsShape.isRequired
 
 const mapStateToProps = (state) => ({
-  columns: state.columns,
-  rows: state.rows,
   table: state.table
 })
 

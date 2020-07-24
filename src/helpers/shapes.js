@@ -7,23 +7,21 @@ export const TableShape = PropTypes.shape({
   showTable: PropTypes.bool
 })
 
+export const TableCellShape = PropTypes.shape({
+  id: PropTypes.number,
+  amount: PropTypes.number,
+  isLight: PropTypes.bool,
+  showPercent: PropTypes.bool
+})
+
+export const TableRowShape = PropTypes.shape({
+  cells: PropTypes.arrayOf(TableCellShape)
+})
+
 export const FormShape = PropTypes.shape({
   rows: PropTypes.number,
   columns: PropTypes.number,
   highlights: PropTypes.number
-})
-
-export const AverageColumnsShape = PropTypes.shape({
-  rows: PropTypes.number,
-  columns: PropTypes.number,
-  table: PropTypes.number
-})
-
-export const RowSumItemShape = PropTypes.shape({
-  table: PropTypes.number,
-  columns: PropTypes.number,
-  cellValue: PropTypes.number,
-  rowSum: PropTypes.number
 })
 
 export const TableItemShape = PropTypes.shape({
@@ -48,4 +46,15 @@ export const ButtonDeleteShape = PropTypes.shape({
 
 export const ButtonAddShape = PropTypes.shape({
   addRow: PropTypes.func
+})
+
+export const AverageColumnsShape = PropTypes.shape({
+  table: PropTypes.number
+})
+
+export const TableSumCellShape = PropTypes.shape({
+  table: PropTypes.number,
+  columns: PropTypes.number,
+  cellValue: PropTypes.number,
+  rowSum: PropTypes.number
 })
