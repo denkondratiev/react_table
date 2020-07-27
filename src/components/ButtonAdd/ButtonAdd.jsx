@@ -1,9 +1,7 @@
 import React from 'react'
 import { ButtonAddShape } from '../../helpers/shapes'
 
-export const ButtonAdd = (props) => {
-  const { addRow } = props
-
+export const ButtonAdd = ({ addRow }) => {
   return (
     <button
       type="button"

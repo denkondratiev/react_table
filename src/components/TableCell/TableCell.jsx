@@ -1,76 +1,47 @@
 import React from 'react'
-import './TableCell.css'
 import { TableCellShape } from '../../helpers/shapes'
 import { connect } from 'react-redux'
-// import store from '../../store/reducers'
-import { increment, setLightCells } from '../../store/actions'
+import { increment } from '../../store/actions'
+import './TableCell.css'
 
 const TableCell = (props) => {
   const {
-    // id,
-    // table,
-    amount,
-    percent,
-    isLight,
-    cellIndex,
-    rowIndex,
+    id,
+    cell,
+    incrementCell,
+    lightArray,
     showPercent,
-    increment
-    // setLightCells,
-    // highlights
+    percent,
+    onMouseEnterHandler,
+    onMouseLeaveHandler
   } = props
 
-  const stylePercent = {
-    backgroundImage: `linear-gradient(90deg, rgba(220,53,69,1) ${percent}%, rgba(108,117,125,1) ${percent}%)`
+  let styleLight = {}
+
+  const onClickHandler = (id) => {
+    incrementCell(id)
   }
 
-  const onClickHandler = ({ id, cellIndex }) => {
-    increment(Number(id), cellIndex)
+  if (lightArray[id]) {
+    styleLight = { backgroundColor: '#6c757d' }
   }
 
-  // const onMouseOverHandler = ({ id, cellIndex }) => {
-  //   setLightCells(Number(id), cellIndex, amount, highlights)
-  // }
-
-  // const onMouseOverHandler = () => {
-  //   const lightArray = table.map(item => ({
-  //     ...item,
-  //     difference: Math.abs(item.amount - amount)
-  //   })).sort((a, b) => a.difference - b.difference).slice(0, highlights + 1)
-
-  //   const newTable = table.map(item => (
-  //     lightArray.some(lightItem => lightItem.id === item.id)
-  //       ? { ...item, isLight: true }
-  //       : { ...item, isLight: false }
-  //   ))
-
-  //   store.dispatch(setTable(newTable))
-  // }
-
-  // const onMouseOutHandler = () => {
-  //   const newTable = table.map(item => ({
-  //     ...item,
-  //     isLight: false
-  //   }))
-
-  //   store.dispatch(setTable(newTable))
-  // }
+  if (showPercent) {
+    styleLight = { backgroundImage: `linear-gradient(90deg, rgba(220,53,69,1) ${percent}%, rgba(108,117,125,1) ${percent}%)` }
+  }
 
   return (
     <td
-      // id={}
-      id={rowIndex}
-      cellIndex={cellIndex}
-      style={showPercent ? stylePercent : {}}
-      className={`${isLight ? 'table-item--light' : ''}`}
-      onClick={(event) => onClickHandler(event.target)}
-      // onMouseOver={(event) => onMouseOverHandler(event.target)}
-      // onMouseOut={onMouseOutHandler}
+      id={id}
+      onClick={(event) => onClickHandler(event.target.id)}
+      onMouseEnter={(event) => onMouseEnterHandler(event.target.id)}
+      onMouseLeave={onMouseLeaveHandler}
+      style={styleLight}
     >
       {
         showPercent
           ? `${percent}%`
-          : amount
+          : cell.amount
       }
     </td>
   )
@@ -78,14 +49,8 @@ const TableCell = (props) => {
 
 TableCell.propTypes = TableCellShape.isRequired
 
-const mapStateToProps = (state) => ({
-  table: state.table,
-  highlights: state.highlights
-})
-
 const mapDispatchToProps = (dispatch) => ({
-  increment: (id, cellIndex) => dispatch(increment(id, cellIndex)),
-  setLightCells: (id, cellIndex, amount, highlights) => dispatch(setLightCells(id, cellIndex, amount, highlights))
+  incrementCell: id => dispatch(increment(id))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableCell)
+export default connect(null, mapDispatchToProps)(TableCell)

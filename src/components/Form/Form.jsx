@@ -1,103 +1,94 @@
 import React, { useState } from 'react'
 import { FormShape } from '../../helpers/shapes'
-import { generateMatrix } from '../../helpers/helpers'
+import { generateTable } from '../../helpers/generate'
 import { connect } from 'react-redux'
-import store from '../../store/reducers'
 import './Form.css'
 import {
-  setColumns,
-  setRows,
-  setHighlights,
+  setParams,
   setTable,
-  setShowTable,
+  setRows,
+  setCells,
   setShowButtons
 } from '../../store/actions'
 
 const Form = (props) => {
-  const { rows, columns, highlights } = props
+  const {
+    setParamsData,
+    setTableData,
+    setRowsData,
+    setCellsData,
+    setShowButtonsBoll
+  } = props
 
-  const [isGenerate, setIsGenerate] = useState(false)
+  const [inputValue, setInputValue] = useState({
+    rowsAmount: '',
+    columnsAmount: '',
+    lightsAmount: ''
+  })
+
   const [error, setError] = useState({
-    rows: false,
-    columns: false,
-    highlights: false
+    rowsAmount: false,
+    columnsAmount: false,
+    lightsAmount: false
   })
 
   const handleGenerateTable = (event) => {
     event.preventDefault()
 
-    if (rows && columns && highlights) {
-      const matrix = generateMatrix(rows, columns)
+    const rowsAmount = inputValue.rowsAmount
+    const columnsAmount = inputValue.columnsAmount
+    const lightsAmount = inputValue.lightsAmount
 
-      store.dispatch(setTable(matrix))
-      store.dispatch(setShowTable(true))
-      store.dispatch(setShowButtons(true))
+    if (rowsAmount > 0 && columnsAmount > 0 && lightsAmount > 0) {
+      const { table, rows, cells } = generateTable(rowsAmount, columnsAmount)
 
-      setIsGenerate(true)
+      setParamsData({ rowsAmount, columnsAmount, lightsAmount })
+      setTableData(table)
+      setRowsData(rows)
+      setCellsData(cells)
+      setShowButtonsBoll(true)
+
+      setInputValue({
+        rowsAmount: '',
+        columnsAmount: '',
+        lightsAmount: ''
+      })
     }
 
     const errorObj = {
-      rows: null,
-      columns: null,
-      highlight: null
+      rowsAmount: null,
+      columnsAmount: null,
+      lightsAmount: null
     }
 
-    if (!rows) {
-      errorObj.rows = true
+    if (!rowsAmount || rowsAmount <= 0) {
+      errorObj.rowsAmount = true
     }
 
-    if (!columns) {
-      errorObj.columns = true
+    if (!columnsAmount || columnsAmount <= 0) {
+      errorObj.columnsAmount = true
     }
 
-    if (!highlights) {
-      errorObj.highlights = true
+    if (!lightsAmount || lightsAmount <= 0) {
+      errorObj.lightsAmount = true
     }
 
     setError({
-      rows: errorObj.rows,
-      columns: errorObj.columns,
-      highlights: errorObj.highlights
+      rowsAmount: errorObj.rowsAmount,
+      columnsAmount: errorObj.columnsAmount,
+      lightsAmount: errorObj.lightsAmount
     })
   }
 
-  const setColumnsHandler = ({ name, value }) => {
-    if (value === '') {
-      store.dispatch(setColumns(''))
-
-      return false
-    }
-
-    setError({ columns: false })
-    store.dispatch(setColumns(value.replace(/[^0-9]/, '')))
-  }
-
-  const setRowsHandler = ({ name, value }) => {
-    if (value === '') {
-      store.dispatch(setRows(''))
-
-      return false
-    }
-
-    setError({ rows: false })
-    store.dispatch(setRows(value.replace(/[^0-9]/, '')))
-  }
-
-  const setHighlightsHandler = ({ name, value }) => {
-    if (value === '') {
-      store.dispatch(setHighlights(''))
-
-      return false
-    }
-
-    setError({ highlights: false })
-    store.dispatch(setHighlights(value.replace(/[^0-9]/, '')))
+  const onChangeHandler = ({ name, value }) => {
+    setError({ [name]: false })
+    setInputValue({ ...inputValue, [name]: value })
   }
 
   return (
     <form className="form" onSubmit={(event) => handleGenerateTable(event)}>
       {
-        error.rows && (
+        error.rowsAmount && (
           <div>
               Please add correct rows value
           </div>
@@ -105,14 +96,14 @@ const Form = (props) => {
       }
       <input
         type="number"
-        name="rows"
-        className={`form-control ${error.rows && 'error'}`}
+        name="rowsAmount"
+        className={`form-control ${error.rowsAmount && 'error'}`}
         placeholder="Rows..."
-        onChange={(event) => setRowsHandler(event.target)}
-        value={isGenerate ? '' : rows}
+        onChange={(event) => onChangeHandler(event.target)}
+        value={inputValue.rowsAmount}
       />
       {
-        error.columns && (
+        error.columnsAmount && (
           <div>
               Please add correct columns value
           </div>
@@ -120,14 +111,14 @@ const Form = (props) => {
       }
       <input
         type="number"
-        name="columns"
-        className={`form-control ${error.columns && 'error'}`}
+        name="columnsAmount"
+        className={`form-control ${error.columnsAmount && 'error'}`}
         placeholder="Columns..."
-        onChange={(event) => setColumnsHandler(event.target)}
-        value={isGenerate ? '' : columns}
+        onChange={(event) => onChangeHandler(event.target)}
+        value={inputValue.columnsAmount}
       />
       {
-        error.highlights && (
+        error.lightsAmount && (
           <div>
               Please add correct highlight value
           </div>
@@ -135,11 +126,11 @@ const Form = (props) => {
       }
       <input
         type="number"
-        name="highlights"
-        className={`form-control ${error.highlights && 'error'}`}
+        name="lightsAmount"
+        className={`form-control ${error.lightsAmount && 'error'}`}
         placeholder="Highlight cells..."
-        onChange={(event) => setHighlightsHandler(event.target)}
-        value={isGenerate ? '' : highlights}
+        onChange={(event) => onChangeHandler(event.target)}
+        value={inputValue.lightsAmount}
       />
       <button
         type="submit"
@@ -153,10 +144,12 @@ const Form = (props) => {
 
 Form.propTypes = FormShape.isRequired
 
-const mapStateToProps = state => ({
-  columns: state.columns,
-  rows: state.rows,
-  highlights: state.highlights
+const mapDispatchToProps = dispatch => ({
+  setParamsData: params => dispatch(setParams(params)),
+  setTableData: table => dispatch(setTable(table)),
+  setRowsData: rows => dispatch(setRows(rows)),
+  setCellsData: cells => dispatch(setCells(cells)),
+  setShowButtonsBoll: params => dispatch(setShowButtons(params))
 })
 
-export default connect(mapStateToProps)(Form)
+export default connect(null, mapDispatchToProps)(Form)

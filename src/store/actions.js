@@ -1,50 +1,50 @@
 export const ACTION_TYPES = {
-  SET_COLUMNS: 'SET::COLUMNS',
-  SET_ROWS: 'SET::ROWS',
+  SET_PARAMS: 'SET::PARAMS',
   SET_TABLE: 'SET::TABLE',
-  SET_HIGHLIGHTS: 'SET::HIGHLIGHTS',
-  SET_SHOW_TABLE: 'SET::SHOW::TABLE',
-  SET_SHOW_BUTTONS: 'SET::SHOW::BUTTONS',
+  SET_ROWS: 'SET::ROWS',
+  SET_CELLS: 'SET::CELLS',
+  SHOW_BUTTONS: 'SHOW::BUTTONS',
   INCREMENT: 'INCREMENT',
-  SET_LIGHT_CELLS: 'SET_LIGHT_CELLS'
+  ADD_ROW: 'ADD_ROW',
+  REMOVE_ROW: 'REMOVE::ROW'
 }
 
-export const setColumns = (param) => ({
-  payload: param,
-  type: ACTION_TYPES.SET_COLUMNS
+export const setParams = params => ({
+  payload: params,
+  type: ACTION_TYPES.SET_PARAMS
 })
 
-export const setRows = (param) => ({
-  payload: param,
-  type: ACTION_TYPES.SET_ROWS
-})
-
-export const setHighlights = (param) => ({
-  payload: param,
-  type: ACTION_TYPES.SET_HIGHLIGHTS
-})
-
-export const setTable = (param) => ({
-  payload: param,
+export const setTable = params => ({
+  payload: params,
   type: ACTION_TYPES.SET_TABLE
 })
 
-export const setShowTable = (param) => ({
-  payload: param,
-  type: ACTION_TYPES.SET_SHOW_TABLE
+export const setRows = params => ({
+  payload: params,
+  type: ACTION_TYPES.SET_ROWS
 })
 
-export const setShowButtons = (param) => ({
-  payload: param,
-  type: ACTION_TYPES.SET_SHOW_BUTTONS
+export const setCells = params => ({
+  payload: params,
+  type: ACTION_TYPES.SET_CELLS
 })
 
-export const increment = (id, cellIndex) => ({
-  payload: { id, cellIndex },
-  type: ACTION_TYPES.INCREMENT
+export const setShowButtons = params => ({
+  payload: params,
+  type: ACTION_TYPES.SHOW_BUTTONS
 })
 
-export const setLightCells = (id, cellIndex, amount, highlights) => ({
-  payload: { id, cellIndex, amount, highlights },
-  type: ACTION_TYPES.SET_LIGHT_CELLS
+export const increment = params => ({
+  type: ACTION_TYPES.INCREMENT,
+  payload: params
+})
+
+export const setNewRow = params => ({
+  type: ACTION_TYPES.ADD_ROW,
+  payload: params
+})
+
+export const removeRow = params => ({
+  type: ACTION_TYPES.REMOVE_ROW,
+  payload: params
 })

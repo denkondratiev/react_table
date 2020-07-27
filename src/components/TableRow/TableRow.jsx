@@ -1,39 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { TableRowShape } from '../../helpers/shapes'
 import TableCell from '../TableCell/TableCell'
-import TableSumCell from '../TableSumCell/TableSumCell'
+import { TableCellSum } from '../TableCellSum/TableCellSum'
 
 export const TableRow = (props) => {
-  const { row, rowIndex } = props
+  const {
+    id,
+    row,
+    cells,
+    rowSum,
+    lightArray,
+    onMouseEnterHandler,
+    onMouseLeaveHandler
+  } = props
 
-  let rowSum = null
+  const [showPercent, setShowPercent] = useState(false)
+
+  const onMouseEnterPercent = () => {
+    setShowPercent(true)
+  }
+
+  const onMouseLeavePercent = () => {
+    setShowPercent(false)
+  }
 
   return (
     <tr
-      key={uuidv4}
-      id={rowIndex}
+      id={id}
     >
-      {row.map((cell, cellIndex) => {
-        rowSum = row.map(cell => cell.amount).reduce((prev, cur) => prev + cur, 0)
+      {row.map(cellId => {
         return (
           <TableCell
             key={uuidv4()}
-            amount={cell.amount}
-            id={cell.id}
-            cellIndex={cellIndex}
-            rowIndex={rowIndex}
-            isLight={cell.isLight}
-            showPercent={cell.showPercent}
-            percent={(cell.amount / rowSum * 100).toFixed(2)}
+            id={cellId}
+            cell={cells[cellId]}
+            onMouseEnterHandler={onMouseEnterHandler}
+            onMouseLeaveHandler={onMouseLeaveHandler}
+            lightArray={lightArray}
+            showPercent={showPercent}
+            percent={(cells[cellId].amount / rowSum * 100).toFixed(2)}
           />
-
         )
       })}
-      <TableSumCell
-        key={uuidv4()}
-        rowIndex={rowIndex}
+      <TableCellSum
         rowSum={rowSum}
+        onMouseEnterPercent={onMouseEnterPercent}
+        onMouseLeavePercent={onMouseLeavePercent}
       />
     </tr>
   )

@@ -4,33 +4,50 @@ export const TableShape = PropTypes.shape({
   rows: PropTypes.number,
   columns: PropTypes.number,
   table: PropTypes.array,
-  showTable: PropTypes.bool
+  sumRowArray: PropTypes.number,
+  lightsAmount: PropTypes.number
 })
 
 export const TableCellShape = PropTypes.shape({
   id: PropTypes.number,
+  cell: PropTypes.number,
   amount: PropTypes.number,
   isLight: PropTypes.bool,
-  showPercent: PropTypes.bool
+  showPercent: PropTypes.bool,
+  percent: PropTypes.number,
+  incrementCell: PropTypes.func,
+  lightArray: PropTypes.array,
+  onMouseEnterHandler: PropTypes.func,
+  onMouseLeaveHandler: PropTypes.func
+})
+
+export const TableCellSumShape = PropTypes.shape({
+  id: PropTypes.number,
+  rowSum: PropTypes.number,
+  onMouseEnterPercent: PropTypes.func,
+  onMouseLeavePercent: PropTypes.func
 })
 
 export const TableRowShape = PropTypes.shape({
-  cells: PropTypes.arrayOf(TableCellShape)
+  id: PropTypes.number,
+  row: PropTypes.array,
+  cells: PropTypes.array,
+  rowSum: PropTypes.number,
+  lightArray: PropTypes.array,
+  onMouseEnterHandler: PropTypes.func,
+  onMouseLeaveHandler: PropTypes.func
+})
+
+export const AverageRowShape = PropTypes.shape({
+  averageArray: PropTypes.array
 })
 
 export const FormShape = PropTypes.shape({
-  rows: PropTypes.number,
-  columns: PropTypes.number,
-  highlights: PropTypes.number
-})
-
-export const TableItemShape = PropTypes.shape({
-  amount: PropTypes.number,
-  id: PropTypes.number,
-  percent: PropTypes.number,
-  table: PropTypes.array,
-  highlights: PropTypes.number,
-  isLight: PropTypes.bool
+  setParamsData: PropTypes.func,
+  setTableData: PropTypes.func,
+  setRowsData: PropTypes.func,
+  setCellsData: PropTypes.func,
+  setShowButtonsBoll: PropTypes.func
 })
 
 export const ButtonsShape = PropTypes.shape({
@@ -46,15 +63,4 @@ export const ButtonDeleteShape = PropTypes.shape({
 
 export const ButtonAddShape = PropTypes.shape({
   addRow: PropTypes.func
-})
-
-export const AverageColumnsShape = PropTypes.shape({
-  table: PropTypes.number
-})
-
-export const TableSumCellShape = PropTypes.shape({
-  table: PropTypes.number,
-  columns: PropTypes.number,
-  cellValue: PropTypes.number,
-  rowSum: PropTypes.number
 })
