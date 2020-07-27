@@ -2,9 +2,23 @@ import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { TableRowShape } from '../../helpers/shapes'
 import TableCell from '../TableCell/TableCell'
-import { TableCellSum } from '../TableCellSum/TableCellSum'
+import TableCellSum from '../TableCellSum/TableCellSum'
 
-export const TableRow = (props) => {
+const areEqual = (prevProps, nextProps) => {
+  const { row, cells, lightArray } = prevProps
+
+  for (const id of row) {
+    if (nextProps.cells[id].amount !== cells[id].amount) {
+      return false
+    }
+    if (nextProps.lightArray[id] !== lightArray[id]) {
+      return false
+    }
+  }
+  return true
+}
+
+const TableRow = (props) => {
   const {
     id,
     row,
@@ -53,3 +67,5 @@ export const TableRow = (props) => {
 }
 
 TableRow.propTypes = TableRowShape.isRequired
+
+export default React.memo(TableRow, areEqual)

@@ -21,4 +21,4 @@ const mapStateToProps = (state) => ({
   averageArray: getAverageRowSum(state)
 })
 
-export default connect(mapStateToProps)(AverageRow)
+export default connect(mapStateToProps)(React.memo(AverageRow))

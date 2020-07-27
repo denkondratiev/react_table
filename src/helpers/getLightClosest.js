@@ -3,7 +3,7 @@ export const getLightClosest = (id, cells, lightsAmount) => {
     ...item,
     difference: Math.abs(item.amount - cells[id].amount)
   })).sort((a, b) => a.difference - b.difference)
-    .slice(0, lightsAmount)
+    .slice(0, Number(lightsAmount))
 
   const obj = {}
 

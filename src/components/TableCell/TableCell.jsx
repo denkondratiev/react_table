@@ -4,6 +4,21 @@ import { connect } from 'react-redux'
 import { increment } from '../../store/actions'
 import './TableCell.css'
 
+const areEqual = (prevProps, nextProps) => {
+  const { lightArray, showPercent, id, cell } = prevProps
+
+  if (nextProps.showPercent !== showPercent) {
+    return false
+  }
+  if (nextProps.cell.amount !== cell.amount) {
+    return false
+  }
+  if (nextProps.lightArray[id] !== lightArray[id]) {
+    return false
+  }
+  return true
+}
+
 const TableCell = (props) => {
   const {
     id,
@@ -53,4 +68,4 @@ const mapDispatchToProps = (dispatch) => ({
   incrementCell: id => dispatch(increment(id))
 })
 
-export default connect(null, mapDispatchToProps)(TableCell)
+export default connect(null, mapDispatchToProps)(React.memo(TableCell, areEqual))

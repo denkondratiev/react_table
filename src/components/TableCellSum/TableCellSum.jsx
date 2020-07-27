@@ -1,7 +1,16 @@
 import React from 'react'
 import { TableCellSumShape } from '../../helpers/shapes'
 
-export const TableCellSum = (props) => {
+const areEqual = (prevProps, nextProps) => {
+  const { rowSum } = prevProps
+
+  if (nextProps.rowSum !== rowSum) {
+    return false
+  }
+  return true
+}
+
+const TableCellSum = (props) => {
   const {
     id,
     rowSum,
@@ -22,3 +31,5 @@ export const TableCellSum = (props) => {
 }
 
 TableCellSum.propTypes = TableCellSumShape.isRequired
+
+export default React.memo(TableCellSum, areEqual)

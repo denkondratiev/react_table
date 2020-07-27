@@ -55,4 +55,4 @@ const mapDispatchToProps = dispatch => ({
   removeRow: (lastRow) => dispatch(removeRow(lastRow))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Buttons)
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Buttons))
