@@ -1,19 +1,17 @@
 import React from 'react'
 import { TableCellShape } from '../../helpers/shapes'
-import { connect } from 'react-redux'
-import { increment } from '../../store/actions'
 import './TableCell.css'
 
 const areEqual = (prevProps, nextProps) => {
-  const { lightArray, showPercent, id, cell } = prevProps
+  const { id, value, styleString } = prevProps
 
-  if (nextProps.showPercent !== showPercent) {
+  if (nextProps.styleString !== styleString) {
     return false
   }
-  if (nextProps.cell.amount !== cell.amount) {
+  if (nextProps.value !== value) {
     return false
   }
-  if (nextProps.lightArray[id] !== lightArray[id]) {
+  if (nextProps.id !== id) {
     return false
   }
   return true
@@ -22,50 +20,30 @@ const areEqual = (prevProps, nextProps) => {
 const TableCell = (props) => {
   const {
     id,
-    cell,
-    incrementCell,
-    lightArray,
-    showPercent,
-    percent,
+    value,
+    styleString,
     onMouseEnterHandler,
-    onMouseLeaveHandler
+    onMouseLeaveHandler,
+    onClickIncrement
   } = props
 
-  let styleLight = {}
-
-  const onClickHandler = (id) => {
-    incrementCell(id)
-  }
-
-  if (lightArray[id]) {
-    styleLight = { backgroundColor: '#6c757d' }
-  }
-
-  if (showPercent) {
-    styleLight = { backgroundImage: `linear-gradient(90deg, rgba(220,53,69,1) ${percent}%, rgba(108,117,125,1) ${percent}%)` }
+  const styleObj = {
+    background: `${styleString}`
   }
 
   return (
     <td
       id={id}
-      onClick={(event) => onClickHandler(event.target.id)}
+      onClick={(event) => onClickIncrement(event.target.id)}
       onMouseEnter={(event) => onMouseEnterHandler(event.target.id)}
       onMouseLeave={onMouseLeaveHandler}
-      style={styleLight}
+      style={styleObj}
     >
-      {
-        showPercent
-          ? `${percent}%`
-          : cell.amount
-      }
+      {value}
     </td>
   )
 }
 
 TableCell.propTypes = TableCellShape.isRequired
 
-const mapDispatchToProps = (dispatch) => ({
-  incrementCell: id => dispatch(increment(id))
-})
-
-export default connect(null, mapDispatchToProps)(React.memo(TableCell, areEqual))
+export default React.memo(TableCell, areEqual)

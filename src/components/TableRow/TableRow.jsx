@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+// import { v4 as uuidv4 } from 'uuid'
 import { TableRowShape } from '../../helpers/shapes'
 import TableCell from '../TableCell/TableCell'
 import TableCellSum from '../TableCellSum/TableCellSum'
@@ -26,7 +26,8 @@ const TableRow = (props) => {
     rowSum,
     lightArray,
     onMouseEnterHandler,
-    onMouseLeaveHandler
+    onMouseLeaveHandler,
+    onClickIncrement
   } = props
 
   const [showPercent, setShowPercent] = useState(false)
@@ -44,16 +45,25 @@ const TableRow = (props) => {
       id={id}
     >
       {row.map(cellId => {
+        let value = cells[cellId].amount
+        let styleString = ''
+
+        if (lightArray[cellId]) { styleString += '#6c757d' }
+
+        if (showPercent) {
+          value = (cells[cellId].amount / rowSum * 100).toFixed(2)
+          styleString += `linear-gradient(90deg, rgba(220,53,69,1) ${value}%, rgba(108,117,125,1) ${value}%)`
+        }
+
         return (
           <TableCell
-            key={uuidv4()}
+            key={cellId}
             id={cellId}
-            cell={cells[cellId]}
+            value={value}
+            styleString={styleString}
             onMouseEnterHandler={onMouseEnterHandler}
             onMouseLeaveHandler={onMouseLeaveHandler}
-            lightArray={lightArray}
-            showPercent={showPercent}
-            percent={(cells[cellId].amount / rowSum * 100).toFixed(2)}
+            onClickIncrement={onClickIncrement}
           />
         )
       })}

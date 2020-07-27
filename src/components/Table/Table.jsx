@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 import { connect } from 'react-redux'
 import { TableShape } from '../../helpers/shapes'
 import TableRow from '../TableRow/TableRow'
 import AverageRow from '../AverageRow/AverageRow'
 import { getRowSum, getLightsAmount } from '../../helpers/selectors'
 import { getLightClosest } from '../../helpers/getLightClosest'
+import { increment } from '../../store/actions'
 import './Table.css'
 
 const Table = (props) => {
@@ -14,7 +14,8 @@ const Table = (props) => {
     rows,
     cells,
     sumRowArray,
-    lightsAmount
+    lightsAmount,
+    incrementCell
   } = props
 
   const [lightArray, setLightArray] = useState({})
@@ -28,6 +29,10 @@ const Table = (props) => {
     setLightArray({})
   }
 
+  const onClickIncrement = (id) => {
+    incrementCell(id)
+  }
+
   return (
     <>
       {table.length > 0 && (
@@ -35,7 +40,7 @@ const Table = (props) => {
           <tbody>
             {table.map((rowId, index) => (
               <TableRow
-                key={uuidv4()}
+                key={rowId}
                 id={rowId}
                 rowSum={sumRowArray[index]}
                 row={rows[rowId]}
@@ -43,6 +48,7 @@ const Table = (props) => {
                 lightArray={lightArray}
                 onMouseEnterHandler={onMouseEnterHandler}
                 onMouseLeaveHandler={onMouseLeaveHandler}
+                onClickIncrement={onClickIncrement}
               />
             ))}
             <AverageRow />
@@ -63,4 +69,8 @@ const mapStateToProps = state => ({
   lightsAmount: getLightsAmount(state)
 })
 
-export default connect(mapStateToProps)(React.memo(Table))
+const mapDispatchToProps = (dispatch) => ({
+  incrementCell: id => dispatch(increment(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Table))
