@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
 import { ACTION_TYPES } from './actions'
+import { Action, Params, RowsParams, CellsParams } from './actions'
 
-const paramsReducer = (state = {}, action) => {
+const paramsReducer = (state: Params = {}, action: Action): Params => {
   const { SET_PARAMS } = ACTION_TYPES
 
   switch (action.type) {
@@ -12,7 +13,7 @@ const paramsReducer = (state = {}, action) => {
   }
 }
 
-function tableReducer (state = [], action) {
+function tableReducer (state: Array<string> = [], action: Action): Array<string> {
   const { SET_TABLE, ADD_ROW, REMOVE_ROW } = ACTION_TYPES
 
   switch (action.type) {
@@ -21,13 +22,13 @@ function tableReducer (state = [], action) {
     case ADD_ROW:
       return [...state, action.payload.table]
     case REMOVE_ROW:
-      return state.filter(id => id !== action.payload.lastIndex)
+      return state.filter(id => id !== action.payload.lastRow)
     default:
       return state
   }
 }
 
-const rowsReducer = (state = {}, action) => {
+const rowsReducer = (state: RowsParams = {}, action: Action): RowsParams => {
   const { SET_ROWS, ADD_ROW, REMOVE_ROW } = ACTION_TYPES
 
   switch (action.type) {
@@ -36,14 +37,15 @@ const rowsReducer = (state = {}, action) => {
     case ADD_ROW:
       return { ...state, ...action.payload.rows }
     case REMOVE_ROW:
-      delete state[action.payload.lastIndex]
+      delete state[action.payload.lastRow]
       return state
     default:
       return state
   }
 }
 
-const cellsReducer = (state = {}, action) => {
+
+const cellsReducer = (state: CellsParams = {}, action: Action): CellsParams => {
   const { SET_CELLS, INCREMENT, ADD_ROW } = ACTION_TYPES
 
   switch (action.type) {
@@ -64,7 +66,7 @@ const cellsReducer = (state = {}, action) => {
   }
 }
 
-const buttonsReducer = (state = false, action) => {
+const buttonsReducer = (state: boolean = false, action: Action): boolean => {
   const { SHOW_BUTTONS } = ACTION_TYPES
 
   switch (action.type) {

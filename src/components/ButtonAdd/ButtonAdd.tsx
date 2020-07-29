@@ -1,7 +1,10 @@
 import React from 'react'
-import { ButtonAddShape } from '../../helpers/shapes'
 
-export const ButtonAdd = ({ addRow }) => {
+interface Props {
+  addRow: () => void
+}
+
+export const ButtonAdd: React.FC<Props> = ({ addRow }) => {
   return (
     <button
       type="button"
@@ -12,5 +15,3 @@ export const ButtonAdd = ({ addRow }) => {
     </button>
   )
 }
-
-ButtonAdd.propTypes = ButtonAddShape.isRequired

@@ -1,52 +1,52 @@
 import React, { useState } from 'react'
-import { FormShape } from '../../helpers/shapes'
 import { generateTable } from '../../helpers/generate'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import './Form.css'
 import {
   setParams,
   setTable,
   setRows,
   setCells,
-  setShowButtons
+  setShowButtons,
 } from '../../store/actions'
 
-const Form = (props) => {
-  const {
-    setParamsData,
-    setTableData,
-    setRowsData,
-    setCellsData,
-    setShowButtonsBoll
-  } = props
+type InputValue = {
+  rowsAmount: string,
+  columnsAmount: string,
+  lightsAmount: string
+}
 
-  const [inputValue, setInputValue] = useState({
+const Form: React.FC = () => {
+
+  const dispatch = useDispatch()
+
+  const [inputValue, setInputValue] = useState<InputValue>({
     rowsAmount: '',
     columnsAmount: '',
     lightsAmount: ''
   })
 
-  const [error, setError] = useState({
+  const [error, setError] = useState<{ [name: string]: boolean }>({
     rowsAmount: false,
     columnsAmount: false,
     lightsAmount: false
   })
 
-  const handleGenerateTable = (event) => {
+  const handleGenerateTable = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const rowsAmount = inputValue.rowsAmount
     const columnsAmount = inputValue.columnsAmount
     const lightsAmount = inputValue.lightsAmount
 
-    if (rowsAmount > 0 && columnsAmount > 0 && lightsAmount > 0) {
+    if (Number(rowsAmount) > 0 && Number(columnsAmount) > 0 && Number(lightsAmount) > 0) {
       const { table, rows, cells } = generateTable(rowsAmount, columnsAmount)
 
-      setParamsData({ rowsAmount, columnsAmount, lightsAmount })
-      setTableData(table)
-      setRowsData(rows)
-      setCellsData(cells)
-      setShowButtonsBoll(true)
+      dispatch(setParams({ rowsAmount, columnsAmount, lightsAmount }))
+      dispatch(setTable(table))
+      dispatch(setRows(rows))
+      dispatch(setCells(cells))
+      dispatch(setShowButtons(true))
 
       setInputValue({
         rowsAmount: '',
@@ -56,20 +56,20 @@ const Form = (props) => {
     }
 
     const errorObj = {
-      rowsAmount: null,
-      columnsAmount: null,
-      lightsAmount: null
+      rowsAmount: false,
+      columnsAmount: false,
+      lightsAmount: false
     }
 
-    if (!rowsAmount || rowsAmount <= 0) {
+    if (!rowsAmount || Number(rowsAmount) <= 0) {
       errorObj.rowsAmount = true
     }
 
-    if (!columnsAmount || columnsAmount <= 0) {
+    if (!columnsAmount || Number(columnsAmount) <= 0) {
       errorObj.columnsAmount = true
     }
 
-    if (!lightsAmount || lightsAmount <= 0) {
+    if (!lightsAmount || Number(lightsAmount) <= 0) {
       errorObj.lightsAmount = true
     }
 
@@ -80,7 +80,8 @@ const Form = (props) => {
     })
   }
 
-  const onChangeHandler = ({ name, value }) => {
+  const onChangeHandler = (event: React.FormEvent<HTMLInputElement>): void => {
+    const { name, value } = event.currentTarget
     setError({ [name]: false })
     setInputValue({ ...inputValue, [name]: value })
   }
@@ -99,7 +100,7 @@ const Form = (props) => {
         name="rowsAmount"
         className={`form-control ${error.rowsAmount && 'error'}`}
         placeholder="Rows..."
-        onChange={(event) => onChangeHandler(event.target)}
+        onChange={(event) => onChangeHandler(event)}
         value={inputValue.rowsAmount}
       />
       {
@@ -114,7 +115,7 @@ const Form = (props) => {
         name="columnsAmount"
         className={`form-control ${error.columnsAmount && 'error'}`}
         placeholder="Columns..."
-        onChange={(event) => onChangeHandler(event.target)}
+        onChange={(event) => onChangeHandler(event)}
         value={inputValue.columnsAmount}
       />
       {
@@ -129,7 +130,7 @@ const Form = (props) => {
         name="lightsAmount"
         className={`form-control ${error.lightsAmount && 'error'}`}
         placeholder="Highlight cells..."
-        onChange={(event) => onChangeHandler(event.target)}
+        onChange={(event) => onChangeHandler(event)}
         value={inputValue.lightsAmount}
       />
       <button
@@ -142,14 +143,4 @@ const Form = (props) => {
   )
 }
 
-Form.propTypes = FormShape.isRequired
-
-const mapDispatchToProps = dispatch => ({
-  setParamsData: params => dispatch(setParams(params)),
-  setTableData: table => dispatch(setTable(table)),
-  setRowsData: rows => dispatch(setRows(rows)),
-  setCellsData: cells => dispatch(setCells(cells)),
-  setShowButtonsBoll: params => dispatch(setShowButtons(params))
-})
-
-export default connect(null, mapDispatchToProps)(Form)
+export default React.memo(Form)

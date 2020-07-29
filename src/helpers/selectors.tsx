@@ -1,18 +1,19 @@
 import { createSelector } from 'reselect'
+import type { State } from '../store/actions'
 
-export const getRows = state => state.rows
+export const getRows = (state: State) => state.rows
 
-export const getCells = state => state.cells
+export const getCells = (state: State) => state.cells
 
-export const getColumns = state => state.columns
+export const getTable = (state: State) => state.table
 
-export const getTable = state => state.table
+export const getRowsAmount = (state: State) => state.params.rowsAmount
 
-export const getRowsAmount = state => state.params.rowsAmount
+export const getColumnsAmount = (state: State) => state.params.columnsAmount
 
-export const getColumnsAmount = state => state.params.columnsAmount
+export const getLightsAmount = (state: State) => state.params.lightsAmount
 
-export const getLightsAmount = state => state.params.lightsAmount
+export const getShowButtons = (state: State) => state.buttons
 
 export const getRowSum = createSelector(
   [getRows, getCells],
@@ -32,7 +33,7 @@ export const getAverageRowSum = createSelector(
       row.map(item => cells[item].amount)
     ))
 
-    const res = []
+    const res: number[] = []
     for (let i = 0; i < onlyAmount.length; i++) {
       for (let j = 0; j < onlyAmount[i].length; j++) {
         res[j] = (res[j] || 0) + Math.floor(onlyAmount[i][j] / onlyAmount.length)

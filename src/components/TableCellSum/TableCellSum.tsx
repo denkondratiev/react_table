@@ -1,7 +1,7 @@
 import React from 'react'
-import { TableCellSumShape } from '../../helpers/shapes'
+import { TableCellSumProps } from '../../helpers/interface'
 
-const areEqual = (prevProps, nextProps) => {
+const areEqual = (prevProps: TableCellSumProps, nextProps: TableCellSumProps) => {
   const { rowSum } = prevProps
 
   if (nextProps.rowSum !== rowSum) {
@@ -10,9 +10,8 @@ const areEqual = (prevProps, nextProps) => {
   return true
 }
 
-const TableCellSum = (props) => {
+const TableCellSum: React.FC<TableCellSumProps> = (props) => {
   const {
-    id,
     rowSum,
     onMouseEnterPercent,
     onMouseLeavePercent
@@ -20,7 +19,6 @@ const TableCellSum = (props) => {
 
   return (
     <td
-      id={id}
       onMouseEnter={onMouseEnterPercent}
       onMouseLeave={onMouseLeavePercent}
     >
@@ -29,7 +27,5 @@ const TableCellSum = (props) => {
 
   )
 }
-
-TableCellSum.propTypes = TableCellSumShape.isRequired
 
 export default React.memo(TableCellSum, areEqual)

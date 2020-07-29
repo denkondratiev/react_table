@@ -1,7 +1,10 @@
 import React from 'react'
-import { ButtonDeleteShape } from '../../helpers/shapes'
 
-export const ButtonDelete = (props) => {
+interface Props {
+  deleteRow: () => void
+}
+
+export const ButtonDelete: React.FC<Props> = (props) => {
   const { deleteRow } = props
 
   return (
@@ -14,5 +17,3 @@ export const ButtonDelete = (props) => {
     </button>
   )
 }
-
-ButtonDelete.propTypes = ButtonDeleteShape.isRequired
