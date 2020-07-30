@@ -31,7 +31,7 @@ export type Action = (
 )
 
 export type Params = {
-  [name: string]: string
+  [name: string]: string | number
 }
 
 export type RowsParams = {
@@ -45,8 +45,8 @@ export type CellsParams = {
 
 export type NewRowsParams = {
   table: Array<string>
-  rows: RowsParams | any
-  cells: CellsParams | any
+  rows: RowsParams
+  cells: CellsParams
 }
 
 // ACTIONS

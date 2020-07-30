@@ -27,19 +27,15 @@ export const getRowSum = createSelector(
 )
 
 export const getAverageRowSum = createSelector(
-  [getRows, getCells],
-  (rows, cells) => {
-    const onlyAmount = Object.values(rows).map(row => (
-      row.map(item => cells[item].amount)
-    ))
+  [getRows, getCells, getColumnsAmount],
+  (rows, cells, columnsAmount) => {
+  const onlyAmount = Object.values(rows).map(row => (
+    row.map(item => cells[item].amount)
+  ))
 
-    const res: number[] = []
-    for (let i = 0; i < onlyAmount.length; i++) {
-      for (let j = 0; j < onlyAmount[i].length; j++) {
-        res[j] = (res[j] || 0) + Math.floor(onlyAmount[i][j] / onlyAmount.length)
-      }
-    }
-
-    return res
+    const averageRow = onlyAmount.reduce((acum, cur) =>
+        cur.map((amount, index) => (acum[index] += amount)), new Array(+columnsAmount).fill(0)
+    )
+    return averageRow.map((item: number) => Math.floor(item / onlyAmount.length))
   }
 )

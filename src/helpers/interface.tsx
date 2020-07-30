@@ -13,7 +13,7 @@ export interface TableRowProps {
 
 export interface TableCellProps {
   id: string
-  amount: any
+  amount: string | number
   styleString: string
   onMouseEnterHandler: (event: SyntheticEvent<HTMLTableCellElement>) => void
   onMouseLeaveHandler: () => void

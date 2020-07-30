@@ -34,8 +34,8 @@ const TableCell: React.FC<TableCellProps> = (props) => {
   return (
     <td
       id={id}
-      onClick={(event) => onClickIncrement(event)}
-      onMouseEnter={(event) => onMouseEnterHandler(event)}
+      onClick={onClickIncrement}
+      onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
       style={styleObj}
     >

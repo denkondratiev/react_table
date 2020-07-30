@@ -30,6 +30,8 @@ const Table: React.FC = ()  => {
   const onClickIncrement = (event: SyntheticEvent<HTMLTableCellElement>) => {
     const { id } = event.currentTarget
     dispatch(increment(id))
+    const obj = getLightClosest(id, cells, lightsAmount)
+    setLightList(obj)
   }
 
   return (

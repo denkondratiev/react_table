@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { generateTable } from '../../helpers/generate'
 import { useDispatch } from 'react-redux'
+import { batch } from 'react-redux'
 import './Form.css'
 import {
   setParams,
@@ -16,6 +17,12 @@ type InputValue = {
   lightsAmount: string
 }
 
+type ErrorValue = {
+  rowsAmount: boolean,
+  columnsAmount: boolean,
+  lightsAmount: boolean
+}
+
 const Form: React.FC = () => {
 
   const dispatch = useDispatch()
@@ -26,7 +33,7 @@ const Form: React.FC = () => {
     lightsAmount: ''
   })
 
-  const [error, setError] = useState<{ [name: string]: boolean }>({
+  const [error, setError] = useState<ErrorValue>({
     rowsAmount: false,
     columnsAmount: false,
     lightsAmount: false
@@ -36,17 +43,19 @@ const Form: React.FC = () => {
     event.preventDefault()
 
     const rowsAmount = inputValue.rowsAmount
-    const columnsAmount = inputValue.columnsAmount
+    const columnsAmount =inputValue.columnsAmount
     const lightsAmount = inputValue.lightsAmount
 
     if (Number(rowsAmount) > 0 && Number(columnsAmount) > 0 && Number(lightsAmount) > 0) {
       const { table, rows, cells } = generateTable(rowsAmount, columnsAmount)
 
-      dispatch(setParams({ rowsAmount, columnsAmount, lightsAmount }))
-      dispatch(setTable(table))
-      dispatch(setRows(rows))
-      dispatch(setCells(cells))
-      dispatch(setShowButtons(true))
+      batch(() => {
+        dispatch(setParams({ rowsAmount, columnsAmount, lightsAmount }))
+        dispatch(setTable(table))
+        dispatch(setRows(rows))
+        dispatch(setCells(cells))
+        dispatch(setShowButtons(true))
+      })
 
       setInputValue({
         rowsAmount: '',
@@ -55,34 +64,17 @@ const Form: React.FC = () => {
       })
     }
 
-    const errorObj = {
-      rowsAmount: false,
-      columnsAmount: false,
-      lightsAmount: false
-    }
-
-    if (!rowsAmount || Number(rowsAmount) <= 0) {
-      errorObj.rowsAmount = true
-    }
-
-    if (!columnsAmount || Number(columnsAmount) <= 0) {
-      errorObj.columnsAmount = true
-    }
-
-    if (!lightsAmount || Number(lightsAmount) <= 0) {
-      errorObj.lightsAmount = true
-    }
-
     setError({
-      rowsAmount: errorObj.rowsAmount,
-      columnsAmount: errorObj.columnsAmount,
-      lightsAmount: errorObj.lightsAmount
+      rowsAmount: (!rowsAmount || Number(rowsAmount) <= 0) ? true : false,
+      columnsAmount: (!columnsAmount || Number(columnsAmount) <= 0) ? true : false,
+      lightsAmount: (!lightsAmount || Number(lightsAmount) <= 0) ? true : false
     })
   }
 
   const onChangeHandler = (event: React.FormEvent<HTMLInputElement>): void => {
     const { name, value } = event.currentTarget
-    setError({ [name]: false })
+
+    setError({ ...error, [name]: false })
     setInputValue({ ...inputValue, [name]: value })
   }
 
@@ -143,4 +135,4 @@ const Form: React.FC = () => {
   )
 }
 
-export default React.memo(Form)
+export default Form

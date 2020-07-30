@@ -3,18 +3,15 @@ import { TableRowProps } from '../../helpers/interface'
 import TableCell from '../TableCell/TableCell'
 import TableCellSum from '../TableCellSum/TableCellSum'
 
-const areEqual = (prevProps: TableRowProps, nextProps: TableRowProps) => {
+const areEqual = (prevProps: TableRowProps, nextProps: TableRowProps): boolean => {
   const { row, cells, lightList } = prevProps
 
-  for (const id of row) {
-    if (nextProps.cells[id].amount !== cells[id].amount) {
-      return false
-    }
-    if (nextProps.lightList[id] !== lightList[id]) {
-      return false
-    }
-  }
-  return true
+  const equal = !row.some((id) => (
+    nextProps.cells[id].amount !== cells[id].amount ||
+    nextProps.lightList[id] !== lightList[id]
+  ))
+
+  return equal
 }
 
 const TableRow: React.FC<TableRowProps> = (props) => {

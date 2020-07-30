@@ -1,0 +1,156 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Form.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src\components\Form\Form.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">181</td><td class="">181</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState } from &#x27;react&#x27;
+import { generateTable } from &#x27;../../helpers/generate&#x27;
+import { useDispatch } from &#x27;react-redux&#x27;
+import { batch } from &#x27;react-redux&#x27;
+import &#x27;./Form.css&#x27;
+import {
+  setParams,
+  setTable,
+  setRows,
+  setCells,
+  setShowButtons,
+} from &#x27;../../store/actions&#x27;
+
+type InputValue = {
+  rowsAmount: string,
+  columnsAmount: string,
+  lightsAmount: string
+}
+
+type ErrorValue = {
+  rowsAmount: boolean,
+  columnsAmount: boolean,
+  lightsAmount: boolean
+}
+
+const Form: React.FC = () =&gt; {
+
+  const dispatch = useDispatch()
+
+  const [inputValue, setInputValue] = useState&lt;InputValue&gt;({
+    rowsAmount: &#x27;&#x27;,
+    columnsAmount: &#x27;&#x27;,
+    lightsAmount: &#x27;&#x27;
+  })
+
+  const [error, setError] = useState&lt;ErrorValue&gt;({
+    rowsAmount: false,
+    columnsAmount: false,
+    lightsAmount: false
+  })
+
+  const handleGenerateTable = (event: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {
+    event.preventDefault()
+
+    const rowsAmount = inputValue.rowsAmount
+    const columnsAmount =inputValue.columnsAmount
+    const lightsAmount = inputValue.lightsAmount
+
+    if (Number(rowsAmount) &gt; 0 &amp;&amp; Number(columnsAmount) &gt; 0 &amp;&amp; Number(lightsAmount) &gt; 0) {
+      const { table, rows, cells } = generateTable(rowsAmount, columnsAmount)
+
+      batch(() =&gt; {
+        dispatch(setParams({ rowsAmount, columnsAmount, lightsAmount }))
+        dispatch(setTable(table))
+        dispatch(setRows(rows))
+        dispatch(setCells(cells))
+        dispatch(setShowButtons(true))
+      })
+
+      setInputValue({
+        rowsAmount: &#x27;&#x27;,
+        columnsAmount: &#x27;&#x27;,
+        lightsAmount: &#x27;&#x27;
+      })
+    }
+
+    setError({
+      rowsAmount: (!rowsAmount || Number(rowsAmount) &lt;= 0) ? true : false,
+      columnsAmount: (!columnsAmount || Number(columnsAmount) &lt;= 0) ? true : false,
+      lightsAmount: (!lightsAmount || Number(lightsAmount) &lt;= 0) ? true : false
+    })
+  }
+
+  const onChangeHandler = (event: React.FormEvent&lt;HTMLInputElement&gt;): void =&gt; {
+    const { name, value } = event.currentTarget
+
+    setError({ ...error, [name]: false })
+    setInputValue({ ...inputValue, [name]: value })
+  }
+
+  return (
+    &lt;form className=&quot;form&quot; onSubmit={(event) =&gt; handleGenerateTable(event)}&gt;
+      {
+        error.rowsAmount &amp;&amp; (
+          &lt;div&gt;
+              Please add correct rows value
+          &lt;/div&gt;
+        )
+      }
+      &lt;input
+        type=&quot;number&quot;
+        name=&quot;rowsAmount&quot;
+        className={`form-control ${error.rowsAmount &amp;&amp; &#x27;error&#x27;}`}
+        placeholder=&quot;Rows...&quot;
+        onChange={(event) =&gt; onChangeHandler(event)}
+        value={inputValue.rowsAmount}
+      /&gt;
+      {
+        error.columnsAmount &amp;&amp; (
+          &lt;div&gt;
+              Please add correct columns value
+          &lt;/div&gt;
+        )
+      }
+      &lt;input
+        type=&quot;number&quot;
+        name=&quot;columnsAmount&quot;
+        className={`form-control ${error.columnsAmount &amp;&amp; &#x27;error&#x27;}`}
+        placeholder=&quot;Columns...&quot;
+        onChange={(event) =&gt; onChangeHandler(event)}
+        value={inputValue.columnsAmount}
+      /&gt;
+      {
+        error.lightsAmount &amp;&amp; (
+          &lt;div&gt;
+              Please add correct highlight value
+          &lt;/div&gt;
+        )
+      }
+      &lt;input
+        type=&quot;number&quot;
+        name=&quot;lightsAmount&quot;
+        className={`form-control ${error.lightsAmount &amp;&amp; &#x27;error&#x27;}`}
+        placeholder=&quot;Highlight cells...&quot;
+        onChange={(event) =&gt; onChangeHandler(event)}
+        value={inputValue.lightsAmount}
+      /&gt;
+      &lt;button
+        type=&quot;submit&quot;
+        className=&quot;btn btn-dark&quot;
+      &gt;
+        Generate
+      &lt;/button&gt;
+    &lt;/form&gt;
+  )
+}
+
+export default Form
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 30 Jul 2020 09:48:47 GMT</p>
+    </body>
+  </html>
+  
