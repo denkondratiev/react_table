@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { RowsParams, CellsParams } from '../store/actions'
+import { RowsParams, CellsParams } from '../store/types'
 
 export const generateTable = (rowsAmount: string | number, columnsAmount: string | number) => {
   const table: Array<string> = new Array(+rowsAmount).fill(0).map((item: string) => item = uuidv4())
@@ -21,12 +21,12 @@ export const generateTable = (rowsAmount: string | number, columnsAmount: string
     (acum: CellsParams, cellID: string) => (
       (acum[cellID] = {
         id: cellID,
-        amount:  Math.floor(Math.random() * 999)
+        amount: Math.floor(Math.random() * 999)
       }),
       acum
     ),
     {}
-  );
+  )
 
-  return { table, rows, cells };
+  return { table, rows, cells }
 }

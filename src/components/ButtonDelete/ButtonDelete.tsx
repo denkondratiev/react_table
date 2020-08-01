@@ -9,6 +9,7 @@ export const ButtonDelete: React.FC<Props> = (props) => {
 
   return (
     <button
+      id="button-delete"
       type="button"
       className="btn btn-dark"
       onClick={deleteRow}

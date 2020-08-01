@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux'
-import { ACTION_TYPES } from './actions'
-import { Action, Params, RowsParams, CellsParams } from './actions'
+import { ACTION_TYPES, Action, Params, RowsParams, CellsParams } from './types'
 
-const paramsReducer = (state: Params = {}, action: Action): Params => {
+export const paramsReducer = (state: Params = {}, action: Action): Params => {
   const { SET_PARAMS } = ACTION_TYPES
 
   switch (action.type) {
@@ -13,7 +12,7 @@ const paramsReducer = (state: Params = {}, action: Action): Params => {
   }
 }
 
-function tableReducer (state: Array<string> = [], action: Action): Array<string> {
+export const tableReducer = (state: Array<string> = [], action: Action): Array<string> => {
   const { SET_TABLE, ADD_ROW, REMOVE_ROW } = ACTION_TYPES
 
   switch (action.type) {
@@ -75,7 +74,7 @@ const cellsReducer = (state: CellsParams = {}, action: Action): CellsParams => {
   }
 }
 
-const buttonsReducer = (state: boolean = false, action: Action): boolean => {
+const buttonsReducer = (state = false, action: Action): boolean => {
   const { SHOW_BUTTONS } = ACTION_TYPES
 
   switch (action.type) {

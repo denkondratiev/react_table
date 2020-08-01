@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should correct render table row with some value 1`] = `
+<tr>
+  <td
+    id="somecell1"
+    style={
+      Object {
+        "background": "",
+      }
+    }
+  >
+    1
+  </td>
+  <td
+    id="somecell2"
+    style={
+      Object {
+        "background": "",
+      }
+    }
+  >
+    2
+  </td>
+  <td
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    Sum: 
+    3
+  </td>
+</tr>
+`;

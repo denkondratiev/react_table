@@ -1,0 +1,272 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should correct render with some values 1`] = `
+<div
+  className="main"
+>
+  <form
+    className="form"
+    id="form"
+    onSubmit={[Function]}
+  >
+    <input
+      className="form-control false"
+      name="rowsAmount"
+      onChange={[Function]}
+      placeholder="Rows..."
+      type="number"
+      value=""
+    />
+    <input
+      className="form-control false"
+      name="columnsAmount"
+      onChange={[Function]}
+      placeholder="Columns..."
+      type="number"
+      value=""
+    />
+    <input
+      className="form-control false"
+      name="lightsAmount"
+      onChange={[Function]}
+      placeholder="Highlight cells..."
+      type="number"
+      value=""
+    />
+    <button
+      className="btn btn-dark"
+      id="button-generate"
+      type="submit"
+    >
+      Generate
+    </button>
+  </form>
+  <div
+    className="buttons"
+  >
+    <button
+      className="btn btn-dark"
+      id="button-delete"
+      onClick={[Function]}
+      type="button"
+    >
+      Delete row -
+    </button>
+    <button
+      className="btn btn-dark"
+      id="button-add"
+      onClick={[Function]}
+      type="button"
+    >
+      Add row +
+    </button>
+  </div>
+  <table
+    className="table table-dark"
+  >
+    <tbody>
+      <tr
+        id="row1"
+      >
+        <td
+          id="somecell1"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          style={
+            Object {
+              "background": "",
+            }
+          }
+        >
+          1
+        </td>
+        <td
+          id="somecell2"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          style={
+            Object {
+              "background": "",
+            }
+          }
+        >
+          2
+        </td>
+        <td
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          Sum: 
+          3
+        </td>
+      </tr>
+      <tr
+        id="row2"
+      >
+        <td
+          id="somecell3"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          style={
+            Object {
+              "background": "",
+            }
+          }
+        >
+          0
+        </td>
+        <td
+          id="somecell4"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          style={
+            Object {
+              "background": "",
+            }
+          }
+        >
+          1
+        </td>
+        <td
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          Sum: 
+          1
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Average sum: 
+          0
+        </td>
+        <td>
+          Average sum: 
+          1
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`test cases for buttons click on button delete 1`] = `
+<div
+  className="main"
+>
+  <form
+    className="form"
+    id="form"
+    onSubmit={[Function]}
+  >
+    <input
+      className="form-control false"
+      name="rowsAmount"
+      onChange={[Function]}
+      placeholder="Rows..."
+      type="number"
+      value=""
+    />
+    <input
+      className="form-control false"
+      name="columnsAmount"
+      onChange={[Function]}
+      placeholder="Columns..."
+      type="number"
+      value=""
+    />
+    <input
+      className="form-control false"
+      name="lightsAmount"
+      onChange={[Function]}
+      placeholder="Highlight cells..."
+      type="number"
+      value=""
+    />
+    <button
+      className="btn btn-dark"
+      id="button-generate"
+      type="submit"
+    >
+      Generate
+    </button>
+  </form>
+  <div
+    className="buttons"
+  >
+    <button
+      className="btn btn-dark"
+      id="button-delete"
+      onClick={[Function]}
+      type="button"
+    >
+      Delete row -
+    </button>
+    <button
+      className="btn btn-dark"
+      id="button-add"
+      onClick={[Function]}
+      type="button"
+    >
+      Add row +
+    </button>
+  </div>
+  <table
+    className="table table-dark"
+  >
+    <tbody>
+      <tr
+        id="row1"
+      >
+        <td
+          id="somecell1"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          style={
+            Object {
+              "background": "",
+            }
+          }
+        >
+          1
+        </td>
+        <td
+          id="somecell2"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          style={
+            Object {
+              "background": "",
+            }
+          }
+        >
+          2
+        </td>
+        <td
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+        >
+          Sum: 
+          3
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Average sum: 
+          1
+        </td>
+        <td>
+          Average sum: 
+          2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

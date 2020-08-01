@@ -8,7 +8,6 @@ import { setNewRow, removeRow } from '../../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Buttons: React.FC = () => {
-
   const dispatch = useDispatch()
 
   const columnsAmount = useSelector(getColumnsAmount)
@@ -18,7 +17,7 @@ const Buttons: React.FC = () => {
   const addRow = (): void => {
     const { table, rows, cells } = generateTable(1, columnsAmount)
 
-    dispatch(setNewRow({ table, rows, cells}))
+    dispatch(setNewRow({ table, rows, cells }))
   }
 
   const deleteRow = (): void => {

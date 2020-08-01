@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { generateTable } from '../../helpers/generate'
-import { useDispatch } from 'react-redux'
-import { batch } from 'react-redux'
+import { useDispatch, batch } from 'react-redux'
+
 import './Form.css'
 import {
   setParams,
   setTable,
   setRows,
   setCells,
-  setShowButtons,
+  setShowButtons
 } from '../../store/actions'
 
 type InputValue = {
@@ -24,7 +24,6 @@ type ErrorValue = {
 }
 
 const Form: React.FC = () => {
-
   const dispatch = useDispatch()
 
   const [inputValue, setInputValue] = useState<InputValue>({
@@ -43,7 +42,7 @@ const Form: React.FC = () => {
     event.preventDefault()
 
     const rowsAmount = inputValue.rowsAmount
-    const columnsAmount =inputValue.columnsAmount
+    const columnsAmount = inputValue.columnsAmount
     const lightsAmount = inputValue.lightsAmount
 
     if (Number(rowsAmount) > 0 && Number(columnsAmount) > 0 && Number(lightsAmount) > 0) {
@@ -65,9 +64,9 @@ const Form: React.FC = () => {
     }
 
     setError({
-      rowsAmount: (!rowsAmount || Number(rowsAmount) <= 0) ? true : false,
-      columnsAmount: (!columnsAmount || Number(columnsAmount) <= 0) ? true : false,
-      lightsAmount: (!lightsAmount || Number(lightsAmount) <= 0) ? true : false
+      rowsAmount: !!((!rowsAmount || Number(rowsAmount) <= 0)),
+      columnsAmount: !!((!columnsAmount || Number(columnsAmount) <= 0)),
+      lightsAmount: !!((!lightsAmount || Number(lightsAmount) <= 0))
     })
   }
 
@@ -79,7 +78,10 @@ const Form: React.FC = () => {
   }
 
   return (
-    <form className="form" onSubmit={(event) => handleGenerateTable(event)}>
+    <form
+      id="form"
+      className="form"
+      onSubmit={(event) => handleGenerateTable(event)}>
       {
         error.rowsAmount && (
           <div>
@@ -126,6 +128,7 @@ const Form: React.FC = () => {
         value={inputValue.lightsAmount}
       />
       <button
+        id ="button-generate"
         type="submit"
         className="btn btn-dark"
       >
