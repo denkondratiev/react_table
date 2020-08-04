@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { generateTable } from '../../helpers/generate'
 import { useDispatch, batch } from 'react-redux'
-
 import './Form.css'
 import {
   setParams,

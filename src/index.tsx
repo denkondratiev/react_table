@@ -7,7 +7,7 @@ import App from './App'
 import 'bootstrap/dist/css/bootstrap.css'
 import './index.css'
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <Provider store={store}>
     <App />
   </Provider>,
