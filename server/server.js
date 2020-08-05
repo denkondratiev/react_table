@@ -1,19 +1,30 @@
 import express from 'express'
-import fs from 'fs'
-import path from 'path'
-
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
 import App from '../src/App'
 import { Provider } from 'react-redux'
-import store from '../src/store/store'
+import { createStore } from 'redux'
+import { rootReducer } from '../src/store/reducers'
+
+import ReactDOMServer from 'react-dom/server'
+import path from 'path'
+import fs from 'fs'
 
 const app = express()
 const PORT = 5000
-const router = express.Router()
 
-const serverRendered = (req, res) => {
-  const html = ReactDOMServer.renderToString(<Provider store={store}><App /></Provider>)
+app.use(express.static(path.resolve(__dirname, '..', 'build')))
+// app.use('/static', express.static(path.join(__dirname, 'public')))
+
+function serverRenderer (req, res) {
+  const store = createStore(rootReducer)
+
+  const html = ReactDOMServer.renderToString(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+
+  const preloadedState = store.getState()
 
   fs.readFile(path.resolve('./build/index.html'), 'utf8', (err, data) => {
     if (err) {
@@ -22,14 +33,11 @@ const serverRendered = (req, res) => {
     }
     return res.send(
       data.replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+        .replace('.window.__PRELOADED_STATE__', `window.__PRELOADED_STATE__= ${JSON.stringify(preloadedState)}`)
     )
   })
 }
 
-router.use('^/$', serverRendered)
+app.use('^/$', serverRenderer)
 
-app.use(express.static(path.resolve(__dirname, '..', 'build')))
-
-app.listen(PORT, () => {
-  console.log(`App launched on port ${PORT}`)
-})
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
