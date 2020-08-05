@@ -33,7 +33,7 @@ function serverRenderer (req, res) {
     }
     return res.send(
       data.replace('<div id="root"></div>', `<div id="root">${html}</div>`)
-        .replace('.window.__PRELOADED_STATE__', `window.__PRELOADED_STATE__= ${JSON.stringify(preloadedState)}`)
+        .replace('.window.__PRELOADED_STATE__', `.window.__PRELOADED_STATE__= ${JSON.stringify(preloadedState)}`)
     )
   })
 }
