@@ -7,6 +7,7 @@ interface Props {
 export const ButtonAdd: React.FC<Props> = ({ addRow }) => {
   return (
     <button
+      id ="button-add"
       type="button"
       className="btn btn-dark"
       onClick={addRow}

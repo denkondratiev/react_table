@@ -7,14 +7,14 @@ import { increment } from '../../store/actions'
 import './Table.css'
 import { useDispatch, useSelector } from 'react-redux'
 
-const Table: React.FC = ()  => {
+const Table: React.FC = () => {
   const [lightList, setLightList] = useState({})
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const table = useSelector(getTable);
-  const lightsAmount = useSelector(getLightsAmount);
-  const rows = useSelector(getRows);
-  const cells = useSelector(getCells);
+  const table = useSelector(getTable)
+  const lightsAmount = useSelector(getLightsAmount)
+  const rows = useSelector(getRows)
+  const cells = useSelector(getCells)
   const sumRowArray = useSelector(getRowSum)
 
   const onMouseEnterHandler = (event: SyntheticEvent<HTMLTableCellElement>) => {

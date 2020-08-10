@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react'
 
 export interface TableRowProps {
   id: string

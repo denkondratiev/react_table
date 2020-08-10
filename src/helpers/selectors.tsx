@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import type { State } from '../store/actions'
+import { State } from '../store/types'
 
 export const getRows = (state: State) => state.rows
 
@@ -29,12 +29,12 @@ export const getRowSum = createSelector(
 export const getAverageRowSum = createSelector(
   [getRows, getCells, getColumnsAmount],
   (rows, cells, columnsAmount) => {
-  const onlyAmount = Object.values(rows).map(row => (
-    row.map(item => cells[item].amount)
-  ))
+    const onlyAmount = Object.values(rows).map(row => (
+      row.map(item => cells[item].amount)
+    ))
 
     const averageRow = onlyAmount.reduce((acum, cur) =>
-        cur.map((amount, index) => (acum[index] += amount)), new Array(+columnsAmount).fill(0)
+      cur.map((amount, index) => (acum[index] += amount)), new Array(+columnsAmount).fill(0)
     )
     return averageRow.map((item: number) => Math.floor(item / onlyAmount.length))
   }

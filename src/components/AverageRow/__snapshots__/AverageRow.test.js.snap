@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should correct render average row with some value 1`] = `
+<tr>
+  <td>
+    Average sum: 
+    0
+  </td>
+  <td>
+    Average sum: 
+    1
+  </td>
+</tr>
+`;

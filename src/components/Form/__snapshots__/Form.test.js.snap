@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing form methods form submit 1`] = `
+<form
+  className="form"
+  id="form"
+  onSubmit={[Function]}
+>
+  <input
+    className="form-control false"
+    name="rowsAmount"
+    onChange={[Function]}
+    placeholder="Rows..."
+    type="number"
+    value={2}
+  />
+  <div>
+    Please add correct columns value
+  </div>
+  <input
+    className="form-control error"
+    name="columnsAmount"
+    onChange={[Function]}
+    placeholder="Columns..."
+    type="number"
+    value=""
+  />
+  <div>
+    Please add correct highlight value
+  </div>
+  <input
+    className="form-control error"
+    name="lightsAmount"
+    onChange={[Function]}
+    placeholder="Highlight cells..."
+    type="number"
+    value=""
+  />
+  <button
+    className="btn btn-dark"
+    id="button-generate"
+    type="submit"
+  >
+    Generate
+  </button>
+</form>
+`;
+
+exports[`testing form methods should correct render initial form 1`] = `
+<form
+  className="form"
+  id="form"
+  onSubmit={[Function]}
+>
+  <input
+    className="form-control false"
+    name="rowsAmount"
+    onChange={[Function]}
+    placeholder="Rows..."
+    type="number"
+    value=""
+  />
+  <input
+    className="form-control false"
+    name="columnsAmount"
+    onChange={[Function]}
+    placeholder="Columns..."
+    type="number"
+    value=""
+  />
+  <input
+    className="form-control false"
+    name="lightsAmount"
+    onChange={[Function]}
+    placeholder="Highlight cells..."
+    type="number"
+    value=""
+  />
+  <button
+    className="btn btn-dark"
+    id="button-generate"
+    type="submit"
+  >
+    Generate
+  </button>
+</form>
+`;
+
+exports[`testing form methods typed to form input 1`] = `
+<form
+  className="form"
+  id="form"
+  onSubmit={[Function]}
+>
+  <input
+    className="form-control false"
+    name="rowsAmount"
+    onChange={[Function]}
+    placeholder="Rows..."
+    type="number"
+    value={2}
+  />
+  <input
+    className="form-control false"
+    name="columnsAmount"
+    onChange={[Function]}
+    placeholder="Columns..."
+    type="number"
+    value=""
+  />
+  <input
+    className="form-control false"
+    name="lightsAmount"
+    onChange={[Function]}
+    placeholder="Highlight cells..."
+    type="number"
+    value=""
+  />
+  <button
+    className="btn btn-dark"
+    id="button-generate"
+    type="submit"
+  >
+    Generate
+  </button>
+</form>
+`;
