@@ -1,0 +1,113 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>reducers.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src\store\reducers.tsx</td><td class="">87.43%</td><td class="">80%</td><td class="">167</td><td class="">146</td><td class="">21</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { combineReducers } from &#x27;redux&#x27;
+import { ACTION_TYPES } from &#x27;./actions&#x27;
+import { Action, Params, RowsParams, CellsParams } from &#x27;./actions&#x27;
+
+const paramsReducer = (state: Params = {}, action: Action): Params =&gt; {
+  const { SET_PARAMS } = ACTION_TYPES
+
+  switch (action.type) {
+    case SET_PARAMS:
+      return action.payload
+    default:
+      return state
+  }
+}
+
+function tableReducer (state: Array&lt;string&gt; = [], action: Action): Array&lt;string&gt; {
+  const { SET_TABLE, ADD_ROW, REMOVE_ROW } = ACTION_TYPES
+
+  switch (action.type) {
+    case SET_TABLE:
+      return action.payload
+    case ADD_ROW:
+      return [...state, action.payload.table]
+    case REMOVE_ROW:
+      return state.filter(id =&gt; id !== action.payload.lastRowKey)
+    default:
+      return state
+  }
+}
+
+const rowsReducer = (state: RowsParams = {}, action: Action): RowsParams =&gt; {
+  const { SET_ROWS, ADD_ROW, REMOVE_ROW } = ACTION_TYPES
+
+  switch (action.type) {
+    case SET_ROWS:
+      return action.payload
+    case ADD_ROW:
+      return { ...state, ...action.payload.rows }
+    case REMOVE_ROW:
+      delete state[action.payload.lastRowKey]
+      return state
+    default:
+      return state
+  }
+}
+
+const cellsReducer = (state: CellsParams = {}, action: Action): CellsParams =&gt; {
+  const { SET_CELLS, INCREMENT, ADD_ROW, REMOVE_ROW } = ACTION_TYPES
+
+  switch (action.type) {
+    case SET_CELLS:
+      return action.payload
+    case ADD_ROW:
+      return { ...state, ...action.payload.cells }
+    case REMOVE_ROW:
+      const { columnsAmount } = action.payload
+      const notDeleted = Object.keys(state).slice(0, -columnsAmount)
+
+      const res = Object.values(state).filter((cellsItem, index) =&gt; (
+        cellsItem.id === notDeleted[index]
+      ))
+      const resObj: CellsParams = {}
+      res.map((item: { id: string, amount: number }) =&gt; resObj[item.id] = { ...item })
+      return resObj
+    case INCREMENT:
+      return {
+        ...state,
+        [action.payload]: {
+          ...state[action.payload],
+          amount: state[action.payload].amount + 1
+        }
+      }
+    default:
+      return state
+  }
+}
+
+const buttonsReducer = (state: boolean = false, action: Action): boolean =&gt; {
+  const { SHOW_BUTTONS } = ACTION_TYPES
+
+  switch (action.type) {
+    case SHOW_BUTTONS:
+      return action.payload
+    default:
+      return state
+  }
+}
+
+export const rootReducer = combineReducers({
+  params: paramsReducer,
+  table: tableReducer,
+  rows: rowsReducer,
+  cells: cellsReducer,
+  buttons: buttonsReducer
+})
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:20,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:20,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:31,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:39,&quot;text&quot;:&quot;table&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:46,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:54,&quot;text&quot;:&quot;lastRowKey&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:20,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:35,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:43,&quot;text&quot;:&quot;rows&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:26,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:34,&quot;text&quot;:&quot;lastRowKey&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:20,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:35,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:43,&quot;text&quot;:&quot;cells&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:14,&quot;text&quot;:&quot;columnsAmount&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:39,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:54,&quot;text&quot;:&quot;columnsAmount&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:16,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:26,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:69,&quot;character&quot;:31,&quot;text&quot;:&quot;payload&quot;},{&quot;file&quot;:&quot;src\\store\\reducers.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:20,&quot;text&quot;:&quot;payload&quot;}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 30 Jul 2020 09:48:47 GMT</p>
+    </body>
+  </html>
+  

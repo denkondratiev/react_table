@@ -1,14 +1,14 @@
 import React from 'react'
-import { TableCellShape } from '../../helpers/shapes'
+import { TableCellProps } from '../../helpers/interface'
 import './TableCell.css'
 
-const areEqual = (prevProps, nextProps) => {
-  const { id, value, styleString } = prevProps
+const areEqual = (prevProps: TableCellProps, nextProps: TableCellProps) => {
+  const { id, amount, styleString } = prevProps
 
   if (nextProps.styleString !== styleString) {
     return false
   }
-  if (nextProps.value !== value) {
+  if (nextProps.amount !== amount) {
     return false
   }
   if (nextProps.id !== id) {
@@ -17,10 +17,10 @@ const areEqual = (prevProps, nextProps) => {
   return true
 }
 
-const TableCell = (props) => {
+const TableCell: React.FC<TableCellProps> = (props) => {
   const {
     id,
-    value,
+    amount,
     styleString,
     onMouseEnterHandler,
     onMouseLeaveHandler,
@@ -34,16 +34,14 @@ const TableCell = (props) => {
   return (
     <td
       id={id}
-      onClick={(event) => onClickIncrement(event.target.id)}
-      onMouseEnter={(event) => onMouseEnterHandler(event.target.id)}
+      onClick={onClickIncrement}
+      onMouseEnter={onMouseEnterHandler}
       onMouseLeave={onMouseLeaveHandler}
       style={styleObj}
     >
-      {value}
+      {amount}
     </td>
   )
 }
-
-TableCell.propTypes = TableCellShape.isRequired
 
 export default React.memo(TableCell, areEqual)
